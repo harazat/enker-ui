@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
-// TODO: use --> import {Redirect} from 'react-router-dom';
+
+// TODO: use --> 
+import {Redirect} from 'react-router-dom';
 
 import {Container, Alert} from 'react-bootstrap';
 
@@ -33,17 +35,18 @@ export default class Login extends Component {
   handleSubmit(event){
     alert(this.state.email);
     event.preventDefault();
+    this.props.loginUser(this.state);
 
   }
   render() {
     // TODO: use to redirect if user not logged in
-    // if (this.props.user) {
-    //   return (
-    //     <Redirect to={{
-    //       pathname: '/profile',
-    //     }} />
-    //   )
-    // }
+    if (this.props.user) {
+      return (
+        <Redirect to={{
+          pathname: '/profile',
+        }} />
+      )
+    }
     return (
       <Container className="mt-3">
       <h1 class="display-4 text-secondary">Login</h1>  <br></br> <br></br>
@@ -68,7 +71,7 @@ export default class Login extends Component {
   </Button>
 </Form>
 
-        <p class="h5">Don't have an account? <a href="">Sign-up to connect!</a></p>
+        <p class="h5">Don't have an account? <a href="/signup">Sign-up to connect!</a></p>
 
         
       </Container>

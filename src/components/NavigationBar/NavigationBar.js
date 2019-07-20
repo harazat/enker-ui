@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 import {Nav, Navbar} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import tumoLogoArm from './tumo-logo-arm.png';
@@ -41,6 +42,9 @@ export default ({user, location}) => (
         </Nav>
       </Navbar.Collapse>
       {
+        user? (
+        <h3> Hello {user.firstName}</h3>
+        ) : null
         /**
          * TODO: When user logged in
          * 1. Text Hello [user first name]!
