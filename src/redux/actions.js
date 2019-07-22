@@ -1,6 +1,7 @@
 // TODO: use --> import Socket from '../socket';
+import Socket from "../socket";
 
-const apiHost = process.env.REACT_APP_API_HOST  || 'http://localhost:3001';
+const apiHost = process.env.REACT_APP_API_HOST || 'http://localhost:3001';
 const axios = require('axios');
 
 export const createUser = (email, password, firstName, lastName, learningTargets, location) => {
@@ -14,54 +15,59 @@ export const createUser = (email, password, firstName, lastName, learningTargets
       location
     };
     axios.post(`${apiHost}/students`, user)
-    .then(response => {
-      dispatch({
-        type: 'CREATE_USER',
-        payload: response.data
+      .then(response => {
+        dispatch({
+          type: 'CREATE_USER',
+          payload: response.data
+        })
       })
-    })
-    .catch(err => {
-      dispatch({
-        type: 'CREATE_USER_ERROR',
-        payload: getErrorMessage(err)
+      .catch(err => {
+        dispatch({
+          type: 'CREATE_USER_ERROR',
+          payload: getErrorMessage(err)
+        })
       })
-    })
   }
 }
 
 export const loginUser = (email, password) => {
   return dispatch => {
-    axios.get(`${apiHost}/students/${email}`, {auth: {username: email, password:password}})
+    axios.get(`${apiHost}/students/${email}`, { auth: { username: email, password: password } })
 
-    .then(response =>{
-      sessionStorage.setItem('email', email);
-      sessionStorage.setItem('password', password);
+      .then(response => {
+        sessionStorage.setItem('email', email);
+        sessionStorage.setItem('password', password);
+        Socket.connect(users => {
+          users.emit("login", {
+            email,
+            password
+          });
+        });
+        dispatch({
 
-      dispatch({
-        
-        type: 'LOGIN_USER',
-        payload: response.data
+          type: 'LOGIN_USER',
+          payload: response.data
+        })
       })
-    })
-    .catch(err => {
-      dispatch({
-        type: 'LOGIN_USER_ERROR',
-        payload: getErrorMessage(err)
+      .catch(err => {
+        dispatch({
+          type: 'LOGIN_USER_ERROR',
+          payload: getErrorMessage(err)
+        })
       })
-    })
-   
+
 
   }
-    /**
-     * TODO: Login Action
-     * 1. Call Login API
-     * 2. Set Session Storage
-     * 3. Connect to Socket and emit login
-     * 4. Dispatch action LOGIN_USER
-     * 5. Listen on Socket start-chat to dispatch start-chat
-     */
-    
-  };
+  /**
+   * TODO: Login Action
+   * 1. Call Login API
+   * 2. Set Session Storage
+   * 3. Connect to Socket and emit login
+   * 4. Dispatch action LOGIN_USER
+   * 5. Listen on Socket start-chat to dispatch start-chat
+   */
+
+};
 
 export const updateUser = () => {
   return dispatch => {
@@ -73,7 +79,21 @@ export const updateUser = () => {
   }
 }
 
-export const logoutUser = (user) => {
+export const logoutUser = (userData) => {  
+  return dispatch => {
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("password");
+
+    Socket.connect(user => {
+      user.emit("log out", userData);
+    });
+    
+    dispatch({
+      type: "LOGOUT_USER",
+      payload: null
+    });
+  }
+
   /**
    * TODO: Logout user action
    * 1. Emit logout action via socket

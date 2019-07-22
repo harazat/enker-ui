@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 // TODO: use --> 
 import {Redirect} from 'react-router-dom';
 
-import {Container, Alert} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 
 /**
  * Component for Login Page

@@ -17,6 +17,8 @@ const user = (state = {data: null, error: null}, action) => {
       return { data: null, error: action.payload};
     case 'LOGIN_USER':
       return { data: action.payload, error: null};
+    case 'LOGOUT_USER': 
+      return {data: null, error: null}; 
     case 'LOGIN_USER_ERROR':
       return { data: null, error: action.payload};
     default:
