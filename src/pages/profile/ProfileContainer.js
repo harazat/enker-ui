@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import Profile from './Profile';
 
 const mapStateToProps = state => {
-  return {}
+  return {
+    user: state.user.data
+  }
 }
 
 const mapDispatchToProps = dispatch => {
