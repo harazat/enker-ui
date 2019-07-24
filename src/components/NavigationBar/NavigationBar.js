@@ -10,7 +10,7 @@ import SearchIcon from './SearchIcon';
 
 import './navigationbar.css';
 
-export default ({user, location, logoutUser}) => (
+export default ({user, location, logoutUser, withUser}) => (
   <div className="global-nav">
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <LinkContainer to="/">
@@ -19,7 +19,7 @@ export default ({user, location, logoutUser}) => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           {
-            // user.data ? (
+             user ? (
               <span>
                 <span className="ml-4 nav-icon">
                   <LinkContainer to="/profile">
@@ -37,12 +37,14 @@ export default ({user, location, logoutUser}) => (
                   </LinkContainer>
                 </span>
               </span>
-            // ) : null
+             ) : null
           }
         </Nav>
+       
       </Navbar.Collapse>
-      {
-        user? (
+      
+        
+        {user ? (
          
         <h3>  <Button variant='danger' onClick={() => logoutUser(user.email, user.passowrd)}>Log Out</Button> Hello {user.firstName}</h3>
         ) : null
@@ -51,8 +53,11 @@ export default ({user, location, logoutUser}) => (
          * 1. Text Hello [user first name]!
          * 2. Button to logout user
          * 3. If connected to peer a button to chat
-         */
-      }
+        */
+       
+        }
+      {withUser ? (<LinkContainer to="/network"><Button className="ml-2" variant="outline-success">CHAT!</Button></LinkContainer>) : null}
+     
     </Navbar>
   </div>
 );

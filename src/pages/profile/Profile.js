@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 //import {Redirect} from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
+// import { Redirect } from 'react-router-dom';
 
+ 
 
 
 
@@ -27,7 +29,7 @@ class Profile extends Component {
     // if (this.props.user == null) {
     //   return (
     //     <Redirect to={{
-    //       pathname: '/home',
+    //       pathname: '/login',
     //     }} />
     //   )
     // }

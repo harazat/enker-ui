@@ -1,6 +1,7 @@
 // TODO: use --> import Socket from '../socket';
 import Socket from "../socket";
 
+
 const apiHost = process.env.REACT_APP_API_HOST || 'http://localhost:3001';
 const axios = require('axios');
 
@@ -47,7 +48,15 @@ export const loginUser = (email, password) => {
 
           type: 'LOGIN_USER',
           payload: response.data
-        })
+        });
+        //users
+        Socket.connect(users => {
+          users.on('start-chat', fromUser => {
+            console.log('start-chat', fromUser);
+            startChat(fromUser)(dispatch);
+            dispatch(imReceiver());
+          });
+        });
       })
       .catch(err => {
         dispatch({
@@ -100,9 +109,17 @@ export const logoutUser = (userData) => {
    * 2. Clear Session Storage
    */
 }
+export const imReceiver = () => ({
+  type: 'IM_THE_RECEIVE',
+})
 
 export const startChat = (withUser) => {
-  // TODO: action creator to start chat
+  return dispatch => {
+    dispatch({
+      type: 'START_CHAT',
+      withUser,
+    });
+  };
 }
 
 export const stopChat = () => {

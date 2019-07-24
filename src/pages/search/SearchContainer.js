@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import Search from './Search';
 
 const mapStateToProps = state => ({
-    // TODO: pass logged in user data
+  currentUser: state.user.data,
+  userError: state.user.error
 })
 
 const mapDispatchToProps = dispatch => ({
