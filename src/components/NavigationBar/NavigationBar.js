@@ -1,7 +1,8 @@
 import React from 'react';
 
-
-import {Nav, Navbar, Button} from 'react-bootstrap';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 import {LinkContainer} from 'react-router-bootstrap';
 import tumoLogoArm from './tumo-logo-arm.png';
 import ProfileIcon from './ProfileIcon';
@@ -19,7 +20,7 @@ export default ({user, location, logoutUser, withUser}) => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           {
-             user ? (
+            user.data ? (
               <span>
                 <span className="ml-4 nav-icon">
                   <LinkContainer to="/profile">
@@ -37,27 +38,13 @@ export default ({user, location, logoutUser, withUser}) => (
                   </LinkContainer>
                 </span>
               </span>
-             ) : null
+            ) : null
           }
         </Nav>
-       
       </Navbar.Collapse>
-      
-        
-        {user ? (
-         
-        <h3>  <Button variant='danger' onClick={() => logoutUser(user.email, user.passowrd)}>Log Out</Button> Hello {user.firstName}</h3>
-        ) : null
-        /**
-         * TODO: When user logged in
-         * 1. Text Hello [user first name]!
-         * 2. Button to logout user
-         * 3. If connected to peer a button to chat
-        */
-       
-        }
-      {withUser ? (<LinkContainer to="/network"><Button className="ml-2" variant="outline-success">CHAT!</Button></LinkContainer>) : null}
-     
+      { user.data ? <span className="user-name">Hello {user.data.firstName}!</span> : null }
+      { user.data ? <LinkContainer to="/"><Button onClick={() => {logoutUser(user.data);}} className="ml-2" variant="outline-warning">Logout</Button></LinkContainer> : null }
+      { withUser ? <LinkContainer to="/network"><Button className="ml-2" variant="outline-success">CHAT!</Button></LinkContainer> : null}
     </Navbar>
   </div>
 );
